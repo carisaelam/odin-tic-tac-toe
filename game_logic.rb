@@ -1,32 +1,26 @@
 module GameLogic
-  @winning_combinations = [
-    'XXX******',
-    'OOO******',
-    '012XXX***',
-    '***OOO***',
-    '******XXX',
-    '******OOO',
-    'X**X**X**',
-    'O**O**O**',
-    '*X**X**X*',
-    '*O**O**O*',
-    '**X**X**X',
-    '**O**O**O',
-    'X***X***X',
-    'O***O***O',
-    '**X*X*X**',
-    '**O*O*O**'
-  ]
-
   def self.winning_combinations
     @winning_combinations
   end
 
   def initialize
-    @row1 = %w[* * *]
-    @row2 = %w[* * *]
-    @row3 = %w[* * *]
+    @row1 = %w[0 1 2]
+    @row2 = %w[3 4 5]
+    @row3 = %w[6 7 8]
     @board_snapshot = '*********'
+    @p1_positions = []
+    @p2_positions = []
+    @winning_combos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ]
+    @winner = nil
   end
 
   def mark_o(position)
@@ -43,7 +37,9 @@ module GameLogic
     else
       puts 'pick a valid position'
     end
+    @p2_positions.push(position)
     print_board
+    puts "p2 positions include #{@p2_positions}"
   end
 
   def mark_x(position)
@@ -60,6 +56,9 @@ module GameLogic
     else
       puts 'pick a valid position'
     end
+    @p1_positions.push(position)
+    print_board
+    puts "p1 positions include #{@p1_positions}"
     print_board
   end
 
@@ -73,12 +72,21 @@ module GameLogic
   end
 
   def check_for_winner
-    if GameLogic.winning_combinations.include?(@board_snapshot)
-      'Game Over'
-    else
-      'Play On'
+    @winning_combos.each do |combo|
+      p combo
+      p "#{@p1_positions} #{@p2_positions}"
 
+      if combo.all? { |position| @p1_positions.include?(position) }
+
+        p "p1 wins with the combo #{combo}"
+        @winner = 'Player One Wins'
+
+      elsif combo.all? { |position| @p2_positions.include?(position) }
+        p "p2 wins with the combo #{combo}"
+        @winner = 'Player Two Wins'
+      end
     end
+    @winner
   end
 end
 

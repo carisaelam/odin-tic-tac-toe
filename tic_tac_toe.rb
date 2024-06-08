@@ -4,22 +4,36 @@ require 'pry-byebug'
 class TicTacToe
   include GameLogic
 
+  @game_over = false
+
+  def p1_turn
+    print_board
+    p 'Player 1: Enter a position for X'
+    position = gets.chomp.to_i
+    mark_x(position)
+    result = check_for_winner
+    @game_over = true unless result.nil?
+  end
+
+  def p2_turn
+    print_board
+    p 'Player 2: Enter a position for O'
+    position = gets.chomp.to_i
+    mark_o(position)
+    result = check_for_winner
+    @game_over = true unless result.nil?
+  end
+
   def start
     p 'Welcome to Tic Tac Toe'
     p 'Play against a friend!'
 
-    loop do
-      print_board
-      p 'Enter a position for X'
-      position = gets.chomp.to_i
-      mark_x(position)
-      binding.pry
-      result = check_for_winner
-      print_board
-      p 'Enter a position for O'
-      position = gets.chomp.to_i
-      mark_o(position)
-      break if result == 'Game Over'
+    until @game_over
+      p1_turn
+      break if @game_over
+
+      p2_turn
+      break if @game_over
     end
   end
 end
