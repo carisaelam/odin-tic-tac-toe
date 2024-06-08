@@ -7,26 +7,27 @@ class TicTacToe
   @game_over = false
 
   def p1_turn
-    print_board
     p 'Player 1: Enter a position for X'
     position = gets.chomp.to_i
     mark_x(position)
     result = check_for_winner
     @game_over = true unless result.nil?
+    print_board
   end
 
   def p2_turn
-    print_board
     p 'Player 2: Enter a position for O'
     position = gets.chomp.to_i
     mark_o(position)
     result = check_for_winner
     @game_over = true unless result.nil?
+    print_board
   end
 
   def start
     p 'Welcome to Tic Tac Toe'
     p 'Play against a friend!'
+    print_board
 
     until @game_over
       p1_turn

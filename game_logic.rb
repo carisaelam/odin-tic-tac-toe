@@ -7,7 +7,6 @@ module GameLogic
     @row1 = %w[0 1 2]
     @row2 = %w[3 4 5]
     @row3 = %w[6 7 8]
-    @board_snapshot = '*********'
     @p1_positions = []
     @p2_positions = []
     @winning_combos = [
@@ -38,8 +37,6 @@ module GameLogic
       puts 'pick a valid position'
     end
     @p2_positions.push(position)
-    print_board
-    puts "p2 positions include #{@p2_positions}"
   end
 
   def mark_x(position)
@@ -57,33 +54,24 @@ module GameLogic
       puts 'pick a valid position'
     end
     @p1_positions.push(position)
-    print_board
-    puts "p1 positions include #{@p1_positions}"
-    print_board
   end
 
   def print_board
-    puts @row1.inspect
-    puts @row2.inspect
-    puts @row3.inspect
-    @board_snapshot = [@row1, @row2, @row3].join
-    p @board_snapshot
-    @board_snapshot
+    p @row1
+    p @row2
+    p @row3
   end
 
   def check_for_winner
     @winning_combos.each do |combo|
-      p combo
-      p "#{@p1_positions} #{@p2_positions}"
-
       if combo.all? { |position| @p1_positions.include?(position) }
 
-        p "p1 wins with the combo #{combo}"
-        @winner = 'Player One Wins'
+        p "Player One wins with the combo #{combo}"
+        @winner = 'Player One'
 
       elsif combo.all? { |position| @p2_positions.include?(position) }
-        p "p2 wins with the combo #{combo}"
-        @winner = 'Player Two Wins'
+        p "Player Two wins with the combo #{combo}"
+        @winner = 'Player Two'
       end
     end
     @winner
