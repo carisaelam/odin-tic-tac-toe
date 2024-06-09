@@ -7,9 +7,11 @@ class TicTacToe
   include GameLogic
 
   @game_over = false
+  @p1_name = 'Player One'
+  @p2_name = 'Player Two'
 
   def p1_turn
-    puts 'Player 1: Enter a position for X'.colorize(color: :blue, mode: :bold)
+    puts "#{@p1_name}: Enter a position for X".colorize(color: :blue, mode: :bold)
     position = gets.chomp.to_i
     puts ' '
     mark_x(position)
@@ -20,7 +22,7 @@ class TicTacToe
   end
 
   def p2_turn
-    puts 'Player 2: Enter a position for O'.colorize(color: :red, mode: :bold)
+    puts "#{@p2_name}: Enter a position for O".colorize(color: :red, mode: :bold)
     position = gets.chomp.to_i
     puts ' '
     mark_o(position)
@@ -54,10 +56,24 @@ class TicTacToe
     end
   end
 
+  def collect_player_names
+    puts 'Player 1: What is your name?'
+    @p1_name = gets.strip
+    puts "Thanks #{@p1_name}!"
+    puts ' '
+
+    puts 'Player 2: What is your name?'
+    @p2_name = gets.strip
+    puts "Thanks #{@p2_name}!"
+    puts ' '
+  end
+
   def start
     puts ' '
     puts '~~Welcome to Tic Tac Toe~~'.colorize(color: :black, background: :cyan, mode: :bold)
     puts ' '
+
+    collect_player_names
 
     print_board
     puts ' '

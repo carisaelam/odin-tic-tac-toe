@@ -73,14 +73,14 @@ module GameLogic
     @winning_combos.each do |combo|
       if combo.all? { |position| @p1_positions.include?(position) }
 
-        puts "Player One wins with the combo #{combo}".colorize(:green).bold
+        puts "#{@p1_name} wins with the combo #{combo}".colorize(:green).bold
         puts ' '
-        @winner = 'Player One'
+        @winner = "#{@p1_name}"
 
       elsif combo.all? { |position| @p2_positions.include?(position) }
-        puts "Player Two wins with the combo #{combo}".colorize(:green).bold
+        puts "#{@p2_name} wins with the combo #{combo}".colorize(:green).bold
         puts ' '
-        @winner = 'Player Two'
+        @winner = "#{@p2_name}"
       end
     end
     @winner
