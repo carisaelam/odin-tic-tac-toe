@@ -10,26 +10,48 @@ class TicTacToe
   @p1_name = 'Player One'
   @p2_name = 'Player Two'
 
+  def retry_turn_p1
+    puts 'retrying turn...'
+    p1_turn
+  end
+
+  def retry_turn_p2
+    puts 'retrying turn...'
+    p2_turn
+  end
+
   def p1_turn
     puts "#{@p1_name}: Enter a position for X".colorize(color: :blue, mode: :bold)
     position = gets.chomp.to_i
     puts ' '
-    mark_x(position)
-    result = check_for_winner
-    @game_over = true unless result.nil?
-    print_board
-    puts ' '
+    if @positions_taken.include?(position) || position > 9 || position < 1
+      puts 'Not a valid position'
+      @p1_positions.delete(position)
+      retry_turn_p1
+    else
+      mark_x(position)
+      result = check_for_winner
+      @game_over = true unless result.nil?
+      print_board
+      puts ' '
+    end
   end
 
   def p2_turn
     puts "#{@p2_name}: Enter a position for O".colorize(color: :red, mode: :bold)
     position = gets.chomp.to_i
     puts ' '
-    mark_o(position)
-    result = check_for_winner
-    @game_over = true unless result.nil?
-    print_board
-    puts ' '
+    if @positions_taken.include?(position) || position > 9 || position < 1
+      puts 'Not a valid position'
+      @p2_positions.delete(position)
+      retry_turn_p2
+    else
+      mark_o(position)
+      result = check_for_winner
+      @game_over = true unless result.nil?
+      print_board
+      puts ' '
+    end
   end
 
   def restart_game_prompt
@@ -45,6 +67,7 @@ class TicTacToe
         @row3 = %w[7 8 9]
         @game_over = false
         @winner = nil
+        @positions_taken = []
         start
         break
       elsif choice == 'N'
@@ -81,14 +104,15 @@ class TicTacToe
     until @game_over
       p1_turn
       break if @game_over
+      break if @positions_taken.length == 9
 
       p2_turn
       break if @game_over
+      break if @positions_taken.length == 9
 
     end
 
     restart_game_prompt
-    binding.pry
   end
 end
 

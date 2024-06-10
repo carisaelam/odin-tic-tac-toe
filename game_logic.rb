@@ -24,6 +24,7 @@ module GameLogic
       [3, 5, 7]
     ]
     @winner = nil
+    @positions_taken = []
   end
 
   def mark_o(position)
@@ -38,9 +39,10 @@ module GameLogic
     when 8 then @row3[1] = 'O'
     when 9 then @row3[2] = 'O'
     else
-      puts 'pick a valid position'
+      puts 'select a valid position'
     end
     @p2_positions.push(position)
+    @positions_taken.push(position)
   end
 
   def mark_x(position)
@@ -55,18 +57,21 @@ module GameLogic
     when 8 then @row3[1] = 'X'
     when 9 then @row3[2] = 'X'
     else
-      puts 'pick a valid position'
+      puts 'select a valid position'
     end
     @p1_positions.push(position)
+    @positions_taken.push(position)
   end
 
   def print_board
-    p @row1
+    p @row1.join(' | ')
+    puts '---+---+---'
+    p @row2.join(' | ')
+    puts '---+---+---'
+    p @row3.join(' | ')
     puts ' '
-    p @row2
-    puts ' '
-    p @row3
-    puts ' '
+
+    p @positions_taken
   end
 
   def check_for_winner
